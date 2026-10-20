@@ -1,0 +1,113 @@
+version 100
+
+cbb {
+    base {
+        depends []          # project-local dependencies
+        depends_ex []       # external dependencies
+
+        class "exe"
+
+        includes [ ]
+        source [ ]
+        lib [ ]
+
+        link [ ]
+        link_shared [ ]
+
+        compiler "g++"
+
+        cc_args ["-std=c++17" "-fno-exceptions"]
+        ld_args [ ]
+
+        out "test"
+    }
+
+    debug {
+        cc_args ["-g3"]
+    }
+
+    release {
+        cc_args ["-O2"]
+    }
+}
+
+targets {
+    library {
+        concat "cbb.base"
+
+        depends_ex [
+            {
+                path "cml-lang/cml_lang.cml"
+                target "shared"
+            }
+        ]
+
+        class "shared"
+
+        includes [
+            "."
+            "src"
+            "cml-lang"
+            "cml-lang/include"
+            "cml-lang/hotchlib/include"
+            "include/bitum"
+            "include"
+        ]
+
+        source [
+            "src/engine/*.cpp"
+            "src/ui/*.cpp"
+        ]
+
+        lib [
+            "cml-lang"
+            "cml-lang/hotchlib"
+        ]
+
+        out "game/bin/libbitum.so"
+    }
+
+    main {
+        concat "cbb.base"
+
+        depends [
+            "library"
+        ]
+
+        source [
+            "src/main/main.cpp"
+        ]
+
+        includes [
+            "." "src/main" "src"
+            "include" "include/bitum"
+        ]
+
+        ld_args ["-Wl,-rpath,'$ORIGIN/bin'"]
+        
+        link [
+            "libhotch.so"
+            "libcml.so"
+        ]
+
+        exec {
+            init [
+                {
+                    command "move"
+                    args ["cml-lang/libcml.so" "game/bin/libcml.so"]
+                }
+
+                {
+                    command "move"
+                    args ["cml-lang/hotchlib/libhotch.so" "game/bin/libhotch.so"]
+                }
+            ]
+        }
+
+        lib [
+            "game/bin"
+        ]
+
+        out "game/bitum"
+    }
+}

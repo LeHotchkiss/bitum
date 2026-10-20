@@ -6,13 +6,7 @@ namespace bitum::meta {
 
         public:
             const CMetaFields& GetFields() const {
-                static CMetaFields s_fields {
-                    {
-                        "test",
-                        &m_int,
-                        INT
-                    }
-                };
+                static CMetaFields s_fields;
 
                 return s_fields;
             }
