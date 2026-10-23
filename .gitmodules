@@ -3,3 +3,7 @@
 	path = cml-lang
 	url = https://github.com/LeHotchkiss/cml-lang.git
 	branch = master
+[submodule "flac"]
+	path = flac
+	url = https://github.com/LeHotchkiss/flac.git
+	branch = master
