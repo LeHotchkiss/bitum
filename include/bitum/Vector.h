@@ -257,6 +257,26 @@ namespace bitum {
 
                 return out;
             }
+
+            constexpr this_t Normalized() const {
+                this_t out;
+
+                const float_t length = this->Length();
+
+                for(size_t i = 0; i < t_iLength; i++) {
+                    out[i] = m_aData[i] / (length + EPSILON);
+                }
+
+                return out;
+            }
+
+            constexpr void Normalize() {
+                const float_t length = this->Length();
+
+                for(size_t i = 0; i < t_iLength; i++) {
+                    m_aData[i] = m_aData[i] / (length + EPSILON);
+                }
+            }
     };
 
     using Vec2f = CVector<float_t, 2>;

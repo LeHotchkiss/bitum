@@ -2,6 +2,8 @@
 
 #include "containers/Stack.h"
 
+static size_t s_iCounter = 0;
+
 namespace bitum::ui {
     void CWidget::PushChild(CWidget* pChild) {
         if( m_dChildren.HasKey(pChild->GetUID()) ) { return; }

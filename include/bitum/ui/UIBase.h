@@ -12,8 +12,6 @@ namespace bitum::ui {
     };
 
     class CWidget {
-        static size_t s_iCounter;
-
         Vec2f m_vPos, m_vSize;
 
         CWidget* m_pParent = NULL;

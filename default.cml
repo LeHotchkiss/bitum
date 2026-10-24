@@ -40,18 +40,21 @@ targets {
                 path "cml-lang/cml_lang.cml"
                 target "shared"
             }
+
+            {
+                path "flac/default.cml"
+                target "shared"
+            }
         ]
 
         class "shared"
 
         includes [
-            "."
-            "src"
-            "cml-lang"
-            "cml-lang/include"
+            "." "src"
+            "cml-lang" "cml-lang/include"
             "cml-lang/hotchlib/include"
-            "include/bitum"
-            "include"
+            "include/bitum" "include"
+            "flac/include" "flac/src/libFLAC/include"
         ]
 
         source [
@@ -75,12 +78,13 @@ targets {
         ]
 
         source [
-            "src/main/main.cpp"
+            "src/main/*.cpp"
         ]
 
         includes [
             "." "src/main" "src"
             "include" "include/bitum"
+            "cml-lang/hotchlib/include"
         ]
 
         ld_args ["-Wl,-rpath,'$ORIGIN/bin'"]
@@ -88,6 +92,8 @@ targets {
         link [
             "libhotch.so"
             "libcml.so"
+            "libflac.so"
+            "libbitum.so"
         ]
 
         exec {
@@ -100,6 +106,11 @@ targets {
                 {
                     command "move"
                     args ["cml-lang/hotchlib/libhotch.so" "game/bin/libhotch.so"]
+                }
+
+                {
+                    command "move"
+                    args ["flac/libflac.so" "game/bin/libflac.so"]
                 }
             ]
         }

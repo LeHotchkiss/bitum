@@ -3,6 +3,7 @@
 
 #include "EngineAllocator.h"
 #include "hlib/Array.h"
+#include "bitum/Meta.h"
 
 namespace bitum {
     template <typename value_t>
