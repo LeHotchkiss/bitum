@@ -4,6 +4,7 @@
 #include "Constants.h"
 
 namespace bitum::math {
+    
     template <typename num_t>
     inline num_t Clamp(num_t x, num_t minv, num_t maxv) {
         return (x > maxv) ? maxv : ((x < minv) ? minv : x);

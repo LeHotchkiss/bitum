@@ -23,6 +23,18 @@ namespace bitum::meta {
         const uint64_t hash     = 0;
         const char* name        = "(null)";
     };
+
+    template <typename var_t>
+    const char* Typename() {
+        SType<var_t> data;
+        return data.name;
+    }
+
+    template <typename var_t>
+    const char* Typehash() {
+        SType<var_t> data;
+        return data.hash;
+    }
 }
 
 #include "src/engine/meta_types.h"
@@ -42,13 +54,14 @@ namespace bitum::meta {
             virtual void* Address() = 0;
             virtual size_t Sizeof() const = 0;
     };
-
+    
     class IMetaclass {
         table_t<hlib::CConstString, IProperty*> m_dProps;
 
-        public:
+        protected:
             IMetaclass* __bitum_get_this();
 
+        public:
             size_t PropsCount() const;
 
             IProperty* operator[](size_t);
@@ -60,7 +73,7 @@ namespace bitum::meta {
     };
 
     template <typename prop_t> 
-    class CProperty : public IProperty {
+    class CProperty final : public IProperty {
         prop_t m_data;
 
         public:
