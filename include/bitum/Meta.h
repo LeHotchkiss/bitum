@@ -31,7 +31,7 @@ namespace bitum::meta {
     }
 
     template <typename var_t>
-    const char* Typehash() {
+    uint64_t Typehash() {
         SType<var_t> data;
         return data.hash;
     }
@@ -82,7 +82,7 @@ namespace bitum::meta {
             }
 
             const prop_t& operator=(const prop_t& other) {
-                m_data += other;
+                m_data = other;
                 return *this;
             }
 

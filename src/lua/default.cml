@@ -1,0 +1,70 @@
+version 100
+
+cbb {
+    base {
+        depends []          # project-local dependencies
+        depends_ex []       # external dependencies
+
+        class "exe"
+
+        includes [ ]
+        source [ ]
+        lib [ ]
+
+        link [ ]
+        link_shared [ ]
+
+        compiler "g++"
+
+        cc_args [ ]
+        ld_args [ ]
+
+        out "test"
+    }
+
+    debug {
+        cc_args ["-g3"]
+    }
+
+    release {
+        cc_args ["-O2"]
+    }
+}
+
+targets {
+    static {
+        concat "cbb.base"
+
+        class "static"
+
+        includes ["."]
+
+        source [
+            "lapi.c"        "lbaselib.c"    "lcorolib.c"
+            "ldblib.c"      "ldo.c"         "lfunc.c"  
+            "linit.c"       "llex.c"        "lmem.c"     
+            "lobject.c"     "loslib.c"      "lstate.c"   
+            "lstrlib.c"     "ltablib.c"     "lundump.c"   
+            "lvm.c"         "lauxlib.c"     "lcode.c"
+            "lctype.c"      "ldebug.c"      "ldump.c"
+            "lgc.c"         "liolib.c"      "lmathlib.c"
+            "loadlib.c"     "lopcodes.c"    "lparser.c"
+            "lstring.c"     "ltable.c"      "ltm.c" 
+            "lutf8lib.c"    "lzio.c"
+        ]
+
+        cc_args ["-O2" "-std=gnu99" "-Wall"]
+
+        compiler "gcc"
+
+        out "liblua.a"
+    }
+
+    shared {
+        concat "targets.static"
+
+        class "shared"
+
+        out "liblua.so"
+    }
+}

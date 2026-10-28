@@ -85,6 +85,8 @@ targets {
             "." "src/main" "src"
             "include" "include/bitum"
             "cml-lang/hotchlib/include"
+            "cml-lang/hotchlib/include/hlib"
+            "cml-lang/hotchlib/src"
         ]
 
         ld_args ["-Wl,-rpath,'$ORIGIN/bin'"]
