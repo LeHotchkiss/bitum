@@ -16,7 +16,7 @@ cbb {
 
         compiler "g++"
 
-        cc_args ["-std=c++17" "-fno-exceptions"]
+        cc_args [ ]
         ld_args [ ]
 
         out "test"
@@ -32,6 +32,44 @@ cbb {
 }
 
 targets {
+    glad {
+        concat "cbb.base"
+
+        compiler "gcc"
+
+        class "static"
+
+        source [ "src/glad/glad.c" ]
+
+        includes [ "src/glad" ]
+
+        cc_args ["-O2"]
+
+        out "static/libglad.a"
+    }
+    
+    glfw {
+        concat "cbb.base"
+
+        compiler "gcc"
+
+        class "static"
+
+        source [
+            "glfw/src/*.c"
+        ]
+
+        includes [
+            "glad/include" "glad/src"
+        ]
+
+        cc_args [
+            "-DGLFW_BUILD_X11"
+        ]
+
+        out "static/libglfw.a"
+    }
+
     library {
         concat "cbb.base"
 
@@ -43,6 +81,11 @@ targets {
 
             {
                 path "flac/default.cml"
+                target "shared"
+            }
+
+            {
+                path "src/lua/default.cml"
                 target "shared"
             }
         ]
@@ -67,6 +110,8 @@ targets {
             "cml-lang/hotchlib"
         ]
 
+        cc_args ["-std=c++17" "-fno-exceptions"]
+
         out "game/bin/libbitum.so"
     }
 
@@ -75,13 +120,18 @@ targets {
 
         depends [
             "library"
+            "glad"
+            "glfw"
         ]
 
         source [
             "src/main/*.cpp"
         ]
-
+        
         includes [
+            "src/glad"
+            "glad/include"
+
             "." "src/main" "src"
             "include" "include/bitum"
             "cml-lang/hotchlib/include"
@@ -96,7 +146,13 @@ targets {
             "libcml.so"
             "libflac.so"
             "libbitum.so"
+            "liblua.so"
+
+            "libglad.a"
+            "libglfw.a"
         ]
+
+        cc_args ["-std=c++17" "-fno-exceptions"]
 
         exec {
             init [
@@ -114,11 +170,17 @@ targets {
                     command "move"
                     args ["flac/libflac.so" "game/bin/libflac.so"]
                 }
+
+                {
+                    command "move"
+                    args ["src/lua/liblua.so" "game/bin/liblua.so"]
+                }
             ]
         }
 
         lib [
             "game/bin"
+            "static"
         ]
 
         out "game/bitum"

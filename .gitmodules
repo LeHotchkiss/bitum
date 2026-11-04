@@ -7,3 +7,7 @@
 	path = flac
 	url = https://github.com/LeHotchkiss/flac.git
 	branch = master
+[submodule "glfw"]
+	path = glfw
+	url = https://github.com/glfw/glfw.git
+	branch = master
